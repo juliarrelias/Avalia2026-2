@@ -1,0 +1,51 @@
+name: Encerrar Entregas e Avaliar Turma
+
+on:
+  workflow_dispatch:
+    inputs:
+      turma:
+        description: 'Turma para avaliar e mesclar (ou "todas")'
+        required: true
+        default: 'todas'
+        type: choice
+        options:
+          - 'todas'
+          - '2A'
+          - '2B'
+          - '2C'
+          - '2D'
+          - '3A'
+          - '3B'
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  models: read
+
+jobs:
+  avaliar-e-encerrar:
+    name: Avaliar com IA e Fazer Merge das Entregas
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do repositório oficial (main)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Configurar Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Executar Avaliação em Lote e Merge
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PROJETOS_VALIDATION_TOKEN: ${{ secrets.PROJETOS_VALIDATION_TOKEN }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          DEEPSEEK_MODEL: ${{ vars.DEEPSEEK_MODEL || 'deepseek-flash' }}
+          PROJETOS_API_BASE: ${{ vars.PROJETOS_API_BASE || 'https://frank-active-reader.frank-alcantara.workers.dev' }}
+          TURMA_FILTRO: ${{ github.event.inputs.turma || 'todas' }}
+        run: node .github/scripts/encerrar-avaliacoes.mjs

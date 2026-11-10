@@ -44,6 +44,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PROJETOS_VALIDATION_TOKEN: ${{ secrets.PROJETOS_VALIDATION_TOKEN }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          DEEPSEEK_MODEL: ${{ vars.DEEPSEEK_MODEL || 'deepseek-flash' }}
           PROJETOS_API_BASE: ${{ vars.PROJETOS_API_BASE || 'https://frank-active-reader.frank-alcantara.workers.dev' }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           PR_HTML_URL: ${{ github.event.pull_request.html_url }}
