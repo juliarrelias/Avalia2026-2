@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Monitoria · agenda de atendimentos</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="top">
+    <h1>Monitoria</h1>
+    <div id="auth"></div>
+  </header>
+
+  <section id="login" class="hero" hidden>
+    <h2>Tem uma dúvida? Reserve um horário com um monitor.</h2>
+    <p>Entre com o Discord para abrir horários como monitor ou reservar um como aluno.</p>
+    <a class="primary" href="/api/auth/discord">Entrar com Discord</a>
+    <p id="authError" class="error" hidden></p>
+  </section>
+
+  <main id="app" hidden>
+    <div class="bar">
+      <div class="tabs" role="tablist" aria-label="Papel">
+        <button role="tab" id="tab-aluno" aria-selected="true">Sou aluno</button>
+        <button role="tab" id="tab-monitor" aria-selected="false">Sou monitor</button>
+      </div>
+      <div class="weeknav">
+        <button id="prev" aria-label="Semana anterior">‹</button>
+        <strong id="range"></strong>
+        <button id="next" aria-label="Próxima semana">›</button>
+        <button id="today">Hoje</button>
+      </div>
+    </div>
+
+    <form id="windowForm" class="window" hidden>
+      <strong>Abrir horários</strong>
+      <label>Dia <input type="date" id="wDate" required></label>
+      <label>Das <input type="time" id="wStart" step="1800" required></label>
+      <label>Até <input type="time" id="wEnd" step="1800" required></label>
+      <button class="primary">Disponibilizar</button>
+    </form>
+
+    <p class="legend">
+      <span class="chip free">Livre</span>
+      <span class="chip mine">Reservado por você</span>
+      <span class="chip taken">Ocupado</span>
+    </p>
+    <div class="scroll"><div id="grid" class="grid" aria-live="polite"></div></div>
+
+    <section id="mine" hidden>
+      <h2>Seus próximos atendimentos</h2>
+      <ul id="mineList"></ul>
+    </section>
+  </main>
+
+  <dialog id="dlg"></dialog>
+  <div id="toast" role="status"></div>
+
+  <footer id="projectFooter">
+    Chave Única de Auditoria: <code>P26-2C-B0E6-32E6-33BF-F8F5</code> · Turma 2C · Licenciado sob MIT
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>
